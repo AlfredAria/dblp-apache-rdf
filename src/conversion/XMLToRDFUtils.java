@@ -31,13 +31,23 @@ public class XMLToRDFUtils {
 	
 	public static Model parse (String pathToFile, Model model) {
 		try {
+			System.out.println("Creating document builder...");
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
+			
+			System.out.println("Parsing XML file...");
 			Document document = builder.parse(pathToFile);
 
+			System.out.println("Get paper node list...");
 			NodeList nodeList = document.getDocumentElement().getChildNodes();
 			int elementCount = 0;
+			System.out.println("Start processing paper items...");
 			for (int i = 0; i < nodeList.getLength() && elementCount < MAX_RETRIEVE; i ++) {
+				
+				if (i % 10000 == 0) {
+					System.out.println("Processing item " + i);
+				}
+				
 				Node node = nodeList.item(i);
 				if (node instanceof Element) {
 					elementCount++;
